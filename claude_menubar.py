@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Claude Gauge — Affiche l'usage du forfait Claude dans la barre de menu macOS.
+Claude Gauge â Affiche l'usage du forfait Claude dans la barre de menu macOS.
 Reprend les infos de la page "Limites d'utilisation" de l'app Claude :
   - Pourcentage utilise
   - Temps avant reinitialisation
@@ -35,7 +35,7 @@ import math
 def create_claude_icon(size=16):
     """
     Dessine le logo Claude (sparkle/etoile a 4 branches)
-    en monochrome template — macOS adapte au mode clair/sombre.
+    en monochrome template â macOS adapte au mode clair/sombre.
     """
     img = NSImage.alloc().initWithSize_(NSMakeSize(size, size))
     img.setTemplate_(True)
@@ -64,7 +64,7 @@ def create_claude_icon(size=16):
     img.unlockFocus()
     return img
 
-# ─── Configuration ───────────────────────────────────────────────────────────
+# âââ Configuration âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 CONFIG_DIR = Path.home() / ".claude-gauge"
 CONFIG_FILE = CONFIG_DIR / "config.json"
@@ -88,7 +88,7 @@ def save_config(config):
         json.dump(config, f, indent=2)
 
 
-# ─── Session key auto-detection ──────────────────────────────────────────────
+# âââ Session key auto-detection ââââââââââââââââââââââââââââââââââââââââââââââ
 
 
 def find_session_key_from_desktop_app():
@@ -130,7 +130,7 @@ def find_session_key_from_desktop_app():
     return None
 
 
-# ─── API claude.ai ───────────────────────────────────────────────────────────
+# âââ API claude.ai âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 
 def claude_api_request(session_key, path):
@@ -249,7 +249,7 @@ def format_reset_time(seconds):
     return f"{m}min"
 
 
-# ─── Application ─────────────────────────────────────────────────────────────
+# âââ Application âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 
 class ClaudeGaugeApp(rumps.App):
@@ -269,9 +269,10 @@ class ClaudeGaugeApp(rumps.App):
 
         # Sous-menu Parametrage
         self.settings_menu = rumps.MenuItem("Parametrage")
-        self.settings_menu[rumps.MenuItem("Configurer la session...", callback=self.on_set_session)] = None
-        self.settings_menu[rumps.MenuItem("Ouvrir claude.ai", callback=self.on_open_claude)] = None
-        self.settings_menu[rumps.MenuItem("Desinstaller...", callback=self.on_uninstall)] = None
+        self.btn_session = rumps.MenuItem("Configurer la session...", callback=self.on_set_session)
+        self.btn_open = rumps.MenuItem("Ouvrir claude.ai", callback=self.on_open_claude)
+        self.btn_uninstall = rumps.MenuItem("Desinstaller...", callback=self.on_uninstall)
+        self.settings_menu.update([self.btn_session, self.btn_open, self.btn_uninstall])
 
         self.menu = [
             self.percent_item,
@@ -369,7 +370,7 @@ class ClaudeGaugeApp(rumps.App):
         self.tier_item.title = "Forfait : --"
         self.status_item.title = "Configurez votre session"
 
-    # ─── Actions ─────────────────────────────────────────────────────
+    # âââ Actions âââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
     def on_set_session(self, _):
         current = self.config.get("session_key", "")
