@@ -1,0 +1,93 @@
+# Claude Gauge
+
+Affiche l'utilisation de votre forfait Claude directement dans la barre de menu macOS.
+
+```
+✦ 90%
+```
+
+Reprend les informations de la page "Limites d'utilisation" de claude.ai :
+- Pourcentage utilise
+- Temps avant reinitialisation
+- Niveau du forfait
+
+---
+
+## Installation
+
+### Prerequis
+
+- macOS 12+
+- Python 3 (inclus avec les Xcode Command Line Tools)
+
+### En une etape
+
+1. Telechargez le projet : **Code > Download ZIP** puis decompressez
+2. Double-cliquez sur `Installer Claude Gauge.command`
+3. C'est tout.
+
+Si macOS bloque le fichier : **clic droit > Ouvrir**.
+
+### Configuration
+
+Au premier lancement, cliquez sur la jauge dans la barre de menu, puis :
+**Parametrage > Configurer la session...**
+
+Pour obtenir votre cle de session :
+1. Ouvrez [claude.ai](https://claude.ai) dans votre navigateur
+2. Outils developpeur (F12) > Application > Cookies > claude.ai
+3. Copiez la valeur de `sessionKey`
+
+L'app tente aussi de detecter automatiquement la session depuis l'app Claude Desktop.
+
+---
+
+## Fonctionnement
+
+- Icone Claude + pourcentage dans la barre de menu
+- Rafraichissement automatique toutes les 2 minutes
+- Se relance au demarrage du Mac
+- Configuration stockee dans `~/.claude-gauge/`
+
+### Menu
+
+```
+Utilisation : 90%
+Reinitialisation : 1h 38min
+Forfait : Max (5x)
+---
+MAJ : 14:32
+Connecte
+---
+Parametrage >  Configurer la session...
+               Ouvrir claude.ai
+               Desinstaller...
+---
+Quitter
+```
+
+---
+
+## Desinstallation
+
+Cliquez sur la jauge > **Parametrage > Desinstaller...**
+
+Ou manuellement :
+```bash
+launchctl bootout "gui/$(id -u)/com.claude.gauge"
+rm ~/Library/LaunchAgents/com.claude.gauge.plist
+rm -rf ~/.claude-gauge
+```
+
+---
+
+## Technique
+
+- Python 3 + [rumps](https://github.com/jaredks/rumps) (menu bar)
+- PyObjC / AppKit (icone native)
+- API interne claude.ai (non documentee)
+- LaunchAgent pour le demarrage automatique
+
+## Licence
+
+MIT
